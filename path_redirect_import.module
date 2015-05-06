@@ -38,6 +38,7 @@ function path_redirect_import_read_file($file, $options = array()) {
     'delimiter' => ',',
     'no_headers' => TRUE,
     'override' => FALSE,
+    'do_not_parse_destination_url' => FALSE,
     'status_code' => '301',
     'language' => LANGUAGE_NONE,
   );
@@ -95,6 +96,7 @@ function path_redirect_import_read_file($file, $options = array()) {
       'redirect' => isset($line[1]) ? $line[1] : NULL,
       'status_code' => $line[2],
       'override' => $options['override'],
+      'do_not_parse_destination_url' => $options['do_not_parse_destination_url'],
       'language' => isset($line[3]) ? $line[3] : LANGUAGE_NONE,
     );
     if (!empty($source_parts['query'])) {
@@ -122,7 +124,7 @@ function path_redirect_import_read_file($file, $options = array()) {
  */
 function path_redirect_import_save_data($data) {
   $redirect = (object) $data;
-  if ($redirect->redirect != '<front>') {
+  if ($redirect->redirect != '<front>' && empty($redirect->do_not_parse_destination_url)) {
     $parts = redirect_parse_url($redirect->redirect);
     if (!empty($parts['query'])) {
       $redirect->redirect_options['query'] = $parts['query'];

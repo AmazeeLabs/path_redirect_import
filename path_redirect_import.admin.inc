@@ -36,6 +36,12 @@ function path_redirect_import_form() {
     '#description' => t('Check to override stored redirects.'),
   );
 
+  $form['csv']['do_not_parse_destination_url'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Do not parse destination URL'),
+    '#description' => t('Disallow internal path checks.'),
+  );
+
   $form['csv']['csv_file'] = array(
     '#type' => 'file',
     '#description' =>
